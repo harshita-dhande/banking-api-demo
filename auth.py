@@ -3,7 +3,7 @@ import sqlite3
 def login(username, password):
     # CRITICAL: Vulnerable to SQL Injection
     # Red Agent will attack this line
-    query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
+    query = "SELECT * FROM users WHERE username = ? AND password = ?"
     
     # Execute
     conn = sqlite3.connect('users.db')
