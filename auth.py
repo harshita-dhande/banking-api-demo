@@ -1,12 +1,11 @@
 import sqlite3
 
-def login(username, password):
-    # CRITICAL: Vulnerable to SQL Injection
-    # Red Agent will attack this line
-    query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
-    
-    # Execute
-    conn = sqlite3.connect('users.db')
+def get_user_by_id(user_id):
+    conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute(query)
-    return cursor.fetchone()
+    # Validate and escape user input
+    escaped_user_id = sqlite3.escape_string(str(user_id))
+    cursor.execute("SELECT * FROM users WHERE id = ?", (escaped_user_id,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
