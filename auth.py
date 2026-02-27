@@ -1,12 +1,8 @@
-import sqlite3
+class UserDAO:
+    def _get_user(self, user_input):
+        # balance between security and readability
+        return self._db.execute("SELECT * FROM users WHERE username = %s", (user_input,))
 
-def login(username, password):
-    # CRITICAL: Vulnerable to SQL Injection
-    # Red Agent will attack this line
-    query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
-    
-    # Execute
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    cursor.execute(query)
-    return cursor.fetchone()
+# Usage
+dao = UserDAO()
+user = dao.get_user("admin")
